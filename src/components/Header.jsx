@@ -34,4 +34,4 @@ const SCHeader = styled.div`
   h1{
     overflow: hidden;
   }
-  `
+`
