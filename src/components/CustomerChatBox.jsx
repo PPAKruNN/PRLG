@@ -1,11 +1,10 @@
 import styled from "styled-components"
-import { Oli } from "./Oli";
-import { Message } from "./message";
 import { useEffect, useRef, useState } from "react";
 import { CustomerChatMessage } from "./CustomerChatMessage";
 import axios from "axios";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { CustomerChatOli } from "./CustomerChatOli";
 
 export function CustomerChatbox() {
 
@@ -50,7 +49,7 @@ export function CustomerChatbox() {
     return (
         <SCChatbox>
             <SCMessages>
-                <Oli />
+                <CustomerChatOli />
                 {genMessages()}
                 <span ref={scrollAnchor}></span>
             </SCMessages>
