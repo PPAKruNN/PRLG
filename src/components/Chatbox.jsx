@@ -21,6 +21,7 @@ export function Chatbox() {
 
     function sendMessage() {
         const message = input.current.value;
+        if(message === "") return;
         createMessage(message);
     }
 
@@ -39,7 +40,7 @@ export function Chatbox() {
             </SCMessages>
 
             <SCInput>
-                <input ref={input} type="text" placeholder="Digite sua mensagem aqui"/>
+                <input onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} ref={input} type="text" placeholder="Digite sua mensagem aqui"/>
                 <div>
                     <button onClick={sendMessage}>S</button>
                 </div>
