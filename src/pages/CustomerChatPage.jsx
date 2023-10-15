@@ -23,7 +23,7 @@ const SCPage = styled.div`
   align-items: center;
   gap: 20px;
 
-  padding-top: 15px;
+  padding-top: 20px;
   padding-bottom: 15px;
 
   width: 100%;
