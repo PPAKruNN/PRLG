@@ -20,7 +20,7 @@ const SCButtons = styled.div`
   align-items: center;
   border-top: 1px solid gray;
   width: 100%;
-  height: 50px;
+  height: 40px;
   bottom: 0;
   left: 0;
   .navbar-ad-icon-wrapper{

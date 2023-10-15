@@ -1,14 +1,16 @@
 
 import styled from "styled-components"
 import logo from '../assets/logo.png'
+import arrow from '../assets/arrow.png';
 
 export default function Header () {
   return (
     <SCHeader>
+      <img width={30} height={30} src={arrow}></img>
       <SCImg>
         <img width={30} src={logo} />
       </SCImg>
-      <h1>Chat Bot - PRLG</h1>
+      <h1>ARRUMAR HEADERChat Bot - PRLG</h1>
     </SCHeader>
   )
 }
@@ -31,7 +33,15 @@ const SCHeader = styled.div`
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #dfdfdf83;
+
   h1{
     overflow: hidden;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+    fill: #000;
+    cursor: pointer;
   }
 `
