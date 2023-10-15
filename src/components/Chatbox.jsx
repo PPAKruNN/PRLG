@@ -6,9 +6,13 @@ import { Message } from "./Message";
 import { useEffect, useRef, useState } from "react";
 import { SuggestionBox } from "./SuggestionBox";
 import axios from "axios";
+import { BsFillPlusSquareFill } from "react-icons/bs";
+import { IconButton } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 
 export function Chatbox() {
+    const navigate = useNavigate();
 
     const [messages, setMessages] = useState([
         {type: "bot", text: "Oi, eu sou o Oli!"},
@@ -16,7 +20,10 @@ export function Chatbox() {
     ]);
 
     const [suggestions, setSuggestions] = useState([]);
-    const [answers, setAnswers] = useState([])
+    const [answers, setAnswers] = useState({
+        question: '',
+        answer: '' ,
+    })
 
     const [questionsSaved, setQuestionsSaved] = useState([
         {
@@ -88,6 +95,18 @@ export function Chatbox() {
 
     return (
           <SCChatbox>
+            
+            <IconButton 
+                icon={<BsFillPlusSquareFill 
+                    style={{fontSize: '40px', color: 'F28000', border: '1.5px solid #000', borderRadius: '5px'}}/>
+                }
+                position="absolute"
+                top={3}
+                right={3}
+                boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                onClick={() => {navigate('/forms')}}
+            />
+
             <SCMessages>
                 <Oli/>
                 {genMessages()}
@@ -133,6 +152,7 @@ const SCInput = styled.div`
     input {
         width: 100%;
         height: 100%;
+        padding-left: 10px;
     } 
 
     div {
@@ -142,15 +162,15 @@ const SCInput = styled.div`
         align-items: center;
         justify-content: space-between;
 
-        width: 80px;
+        width: 40px;
         padding: 4px;
 
         height: 100%;
         overflow: visible;
 
         button {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             aspect-ratio: 1;
             img {
                 width: 100%;
@@ -161,7 +181,7 @@ const SCInput = styled.div`
 
         button:nth-of-type(1) {
             background-color: green; 
-            padding: 3px;
+            padding-bottom: 2px;
         }
     }
 `

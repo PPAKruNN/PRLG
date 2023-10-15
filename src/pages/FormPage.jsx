@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import BottomButtons from "../components/BottomButtons";
 import Header from "../components/Header";
-import { Chatbox } from "../components/Chatbox";
+import Form from "../components/Form";
 
-export default function Home() {
+export default function FormPage() {
   return (
     <>
       <Header />
       <SCContainer>
         <SCPage>
-          <h1>O que você está anunciando?</h1>
-          <Chatbox></Chatbox>
+          <h1>Vamos revisar seu anúncio</h1>
+          <Form></Form>
         </SCPage>
       </SCContainer>
     </> 
