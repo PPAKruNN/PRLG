@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { Oli } from "../components/Oli";
 import { Message } from "./message";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 export function Chatbox() {
 
@@ -9,6 +10,14 @@ export function Chatbox() {
         {type: "bot", text: "Oi, eu sou o Oli!"},
         {type: "bot", text: "Eu vou te ajudar a anunciar seu produto!"},
     ]);
+    const [answers, setAnswers] = useState([])
+
+    const [questionsSaved, setQuestionsSaved] = useState([
+        {
+            question: "",
+            answer: ""
+        }
+    ])
 
     const input = useRef(null);
     const scrollAnchor = useRef(null);
@@ -23,6 +32,10 @@ export function Chatbox() {
         const message = input.current.value;
         if(message === "") return;
         createMessage(message);
+        setAnswers({
+            question: questionsSaved[questionsSaved.length - 1],
+            answer: input.current.value ,
+        })
         input.current.value = "";
     }
 
@@ -31,6 +44,37 @@ export function Chatbox() {
             return <Message key={index} type={message.type} text={message.text}/>
         })
     }
+
+    function receiveQuestions() {
+        axios.post('http://localhost:5000/chat', {questions: answers}).then(res => {
+            if (!res.data) {
+                receiveQuestions()
+            }
+            const array = questionsSaved
+            array.push(res.data.question || res.data.createdQuestion)
+            setQuestionsSaved(array)
+            createMessage(res.data.question || res.data.createdQuestion, 'bot')
+        }).catch(err => {
+            console.error(err);
+        })
+    }
+
+    // function botPrompt(){
+    //     let selected = '';
+    //     // verificar se tem alguma questão na fila (questions), caso exista selected = questãoExistente,
+    //     // caso contrário, pedimos para o GPETO a prox question
+    //     // selected = retorno do GPETO
+    //     // createMessage no selected (retorno do GPETO)
+    // }
+    
+    useEffect(() => {
+        const delay = answers.length === 0 ? 3000 : 0;
+        const timer = setTimeout(() => {
+            receiveQuestions();
+        }, delay);
+        return () => clearTimeout(timer)
+    }, [answers]);
+
 
     useEffect( () => {
         scrollAnchor.current.scrollIntoView({behavior: 'smooth', block: 'end'});
@@ -54,7 +98,7 @@ export function Chatbox() {
 
                 <div>
                     <button onClick={sendMessage}>A</button>
-                    <button onClick={sendMessage}>S</button>
+                    <button onClick={() => console.log(questionsSaved)}>S</button>
                 </div>
             </SCInput>
           </SCChatbox>
