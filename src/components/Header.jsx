@@ -1,47 +1,44 @@
 
 import styled from "styled-components"
-import logo from '../assets/logo.png'
+import user from '../assets/user.png'
+import logo from '../assets/OLX.svg'
 import arrow from '../assets/arrow.png';
 
 export default function Header () {
   return (
     <SCHeader>
-      <img width={30} height={30} src={arrow}></img>
-      <SCImg>
-        <img width={30} src={logo} />
-      </SCImg>
-      <h1>ARRUMAR HEADERChat Bot - PRLG</h1>
+      <div>
+        <img width={18} height={30} src={arrow}></img>
+        <img width={50} src={logo} />
+      </div>
+
+      <img width={40} height={30} src={user}></img>
+      
     </SCHeader>
   )
 }
 
-const SCImg = styled.section`
-  position: absolute;
-  top: 0.5em;
-  left: 2em;
-`
-
 const SCHeader = styled.div`
   position: relative;
   height: 40px;
-  background-color: yellow;
+  padding: 25px 40px;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #dfdfdf83;
+  border-bottom: 1px solid #CFD4DD;
 
   h1{
     overflow: hidden;
   }
 
-  svg {
-    width: 30px;
-    height: 30px;
-    fill: #000;
-    cursor: pointer;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 30px;
   }
+
 `

@@ -6,7 +6,7 @@ export function Oli() {
     return (
        <SBody>
             <h1>Olá, eu sou o Oli!</h1>
-            <img src={OliSvg}></img>
+            <img width={100} height={100} src={OliSvg}></img>
 
             <p>Vou te ajudar a preencher o seu novo anúncio na OLX de forma rápida e completa.</p>
             <p>Vou te fazer algumas perguntas sobre o que você está vendendo para escrevermos o seu novo anúncio na OLX.</p>
@@ -22,13 +22,17 @@ const SBody = styled.div`
     align-self: center;
     width: 85%;
 
-    gap: 5px;
+    width: 60%;
+    height: 250px;
+
+    gap: 10px;
 
     h1 {
         font-size: 18px;
         font-weight: 700;
         letter-spacing: 0em;
         text-align: center;
+        flex-shrink: 0;
     }
 
     p {
@@ -37,10 +41,7 @@ const SBody = styled.div`
         letter-spacing: 0em;
         text-align: center;
         color:#5E6A82;
-    }
-
-    img {
-        width: 120px;
+        flex-shrink: 0;
     }
 
 `

@@ -1,7 +1,12 @@
 import styled from "styled-components"
 import { Oli } from "../components/Oli";
-import { Message } from "./message";
+import send from "../assets/send.svg"
+import anex from "../assets/anex.svg"
+import { Message } from "./Message";
 import { useEffect, useRef, useState } from "react";
+import { SuggestionBox } from "./SuggestionBox";
+import axios from "axios";
+
 
 export function Chatbox() {
 
@@ -9,6 +14,16 @@ export function Chatbox() {
         {type: "bot", text: "Oi, eu sou o Oli!"},
         {type: "bot", text: "Eu vou te ajudar a anunciar seu produto!"},
     ]);
+
+    const [suggestions, setSuggestions] = useState([]);
+    const [answers, setAnswers] = useState([])
+
+    const [questionsSaved, setQuestionsSaved] = useState([
+        {
+            question: "",
+            answer: ""
+        }
+    ])
 
     const input = useRef(null);
     const scrollAnchor = useRef(null);
@@ -23,6 +38,10 @@ export function Chatbox() {
         const message = input.current.value;
         if(message === "") return;
         createMessage(message);
+        setAnswers({
+            question: questionsSaved[questionsSaved.length - 1],
+            answer: input.current.value ,
+        })
         input.current.value = "";
     }
 
@@ -31,6 +50,37 @@ export function Chatbox() {
             return <Message key={index} type={message.type} text={message.text}/>
         })
     }
+
+    function receiveQuestions() {
+        axios.post('http://localhost:5000/chat', {questions: answers}).then(res => {
+            if (!res.data) {
+                receiveQuestions()
+            }
+            const array = questionsSaved
+            array.push(res.data.question || res.data.createdQuestion)
+            setQuestionsSaved(array)
+            createMessage(res.data.question || res.data.createdQuestion, 'bot')
+        }).catch(err => {
+            console.error(err);
+        })
+    }
+
+    // function botPrompt(){
+    //     let selected = '';
+    //     // verificar se tem alguma questão na fila (questions), caso exista selected = questãoExistente,
+    //     // caso contrário, pedimos para o GPETO a prox question
+    //     // selected = retorno do GPETO
+    //     // createMessage no selected (retorno do GPETO)
+    // }
+    
+    useEffect(() => {
+        const delay = answers.length === 0 ? 3000 : 0;
+        const timer = setTimeout(() => {
+            receiveQuestions();
+        }, delay);
+        return () => clearTimeout(timer)
+    }, [answers]);
+
 
     useEffect( () => {
         scrollAnchor.current.scrollIntoView({behavior: 'smooth', block: 'end'});
@@ -45,6 +95,7 @@ export function Chatbox() {
             </SCMessages>
 
             <SCInput>
+                <SuggestionBox inputRef={input} array={suggestions}/>
                 <input 
                     onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} 
                     ref={input} 
@@ -53,8 +104,12 @@ export function Chatbox() {
                 />
 
                 <div>
-                    <button onClick={sendMessage}>A</button>
-                    <button onClick={sendMessage}>S</button>
+                    <button onClick={sendMessage}>
+                        <img src={anex} alt="Attach a photo"/>
+                    </button>
+                    <button onClick={sendMessage}>
+                        <img src={send} alt="send"/>
+                    </button>
                 </div>
             </SCInput>
           </SCChatbox>
@@ -64,6 +119,8 @@ export function Chatbox() {
 const SCInput = styled.div`
     position: absolute;
     bottom: 0;
+
+    overflow: visible;
 
     display: flex;
     justify-content: space-between;
@@ -85,24 +142,26 @@ const SCInput = styled.div`
         align-items: center;
         justify-content: space-between;
 
-        width: 40px;
+        width: 80px;
         padding: 4px;
+
+        height: 100%;
+        overflow: visible;
 
         button {
             width: 30px;
             height: 30px;
             aspect-ratio: 1;
-            background-color: black;
-
-            border-radius: 50%;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            border-radius: 10%;
         }
 
         button:nth-of-type(1) {
-            background-color: yellow;
-        }
-
-        button:nth-of-type(2) {
             background-color: green; 
+            padding: 3px;
         }
     }
 `
@@ -138,7 +197,7 @@ const SCChatbox = styled.div`
   display: flex;
   
   flex-direction: column;
-  background-color: #CFD4DD;
+  background-color: #F1F1F1;
   align-items: center;
 
   overflow: auto;
