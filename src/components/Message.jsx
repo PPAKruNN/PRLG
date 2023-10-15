@@ -6,12 +6,22 @@
 
 import styled from "styled-components"
 import Oli from "../assets/oli.svg"
+import user from "../assets/user.png"
+import seller from "../assets/user.png"
+
 
 // eslint-disable-next-line react/prop-types
 export function Message({type, text}) {
+
+    function chooseIcon() {
+        if(type === 'bot') return Oli;
+        if(type === 'user') return user;
+        if(type === 'seller') return seller;
+    }
+
     return (
         <SCMessage $type={type}>
-            <Icon src={Oli} ></Icon>
+            <Icon src={chooseIcon(type)} ></Icon>
             <div>
                 <p>{text}</p>
             </div>
