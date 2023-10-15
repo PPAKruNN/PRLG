@@ -5,19 +5,26 @@
 // 'seller'
 
 import styled from "styled-components"
-
+import Oli from "../assets/oli.svg"
 
 // eslint-disable-next-line react/prop-types
 export function Message({type, text}) {
     return (
         <SCMessage $type={type}>
-            <icon></icon>
+            <Icon src={Oli} ></Icon>
             <div>
                 <p>{text}</p>
             </div>
         </SCMessage>
     )
 }
+const Icon = styled.img`
+    width: 35px;
+    height: 35px;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+`
 
 const SCMessage = styled.div`
    display : flex ;
@@ -29,14 +36,6 @@ const SCMessage = styled.div`
 
    gap: 10px;
 
-   icon {
-    width: 30px;
-    height: 30px;
-    aspect-ratio: 1;
-    background-color: black;
-
-    border-radius: 50%;
-   }
 
    div {
     font-size: 12px;

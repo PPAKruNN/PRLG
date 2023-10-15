@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import { Oli } from "../components/Oli";
+import send from "../assets/send.svg"
+import anex from "../assets/anex.svg"
 import { Message } from "./Message";
 import { useEffect, useRef, useState } from "react";
 import { SuggestionBox } from "./SuggestionBox";
@@ -56,8 +58,12 @@ export function Chatbox() {
                 />
 
                 <div>
-                    <button onClick={sendMessage}>A</button>
-                    <button onClick={sendMessage}>S</button>
+                    <button onClick={sendMessage}>
+                        <img src={anex} alt="Attach a photo"/>
+                    </button>
+                    <button onClick={sendMessage}>
+                        <img src={send} alt="send"/>
+                    </button>
                 </div>
             </SCInput>
           </SCChatbox>
@@ -90,24 +96,26 @@ const SCInput = styled.div`
         align-items: center;
         justify-content: space-between;
 
-        width: 40px;
+        width: 80px;
         padding: 4px;
+
+        height: 100%;
+        overflow: visible;
 
         button {
             width: 30px;
             height: 30px;
             aspect-ratio: 1;
-            background-color: black;
-
-            border-radius: 50%;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            border-radius: 10%;
         }
 
         button:nth-of-type(1) {
-            background-color: yellow;
-        }
-
-        button:nth-of-type(2) {
             background-color: green; 
+            padding: 3px;
         }
     }
 `
@@ -143,7 +151,7 @@ const SCChatbox = styled.div`
   display: flex;
   
   flex-direction: column;
-  background-color: #CFD4DD;
+  background-color: #F1F1F1;
   align-items: center;
 
   overflow: auto;
