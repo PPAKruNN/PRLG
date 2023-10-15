@@ -24,6 +24,9 @@ const SCMessage = styled.div`
    flex-direction: ${(p) => p.$type === 'user' ? 'row-reverse' : 'row'};
    align-items: flex-end;
 
+   flex-shrink: 0;
+   min-height: 50px;
+
    gap: 10px;
 
    icon {

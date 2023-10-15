@@ -16,17 +16,19 @@ export function Oli() {
 
 const SBody = styled.div`
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     align-items: center;
+    align-self: center;
 
     width: 60%;
+    height: 200px;
 
     gap: 10px;
 
     h1 {
         font-size: 18px;
         font-weight: 700;
-        line-height: 29px;
         letter-spacing: 0em;
         text-align: center;
     }

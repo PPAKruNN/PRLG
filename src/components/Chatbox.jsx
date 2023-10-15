@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { Oli } from "../components/Oli";
 import { Message } from "./message";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function Chatbox() {
 
@@ -11,6 +11,7 @@ export function Chatbox() {
     ]);
 
     const input = useRef(null);
+    const scrollAnchor = useRef(null);
 
     function createMessage(text, type = "user") {
         const message = {type, text};
@@ -31,17 +32,28 @@ export function Chatbox() {
         })
     }
 
+    useEffect( () => {
+        scrollAnchor.current.scrollIntoView({behavior: 'smooth', block: 'end'});
+    })
+
     return (
           <SCChatbox>
-            <Oli/>
-
             <SCMessages>
+                <Oli/>
                 {genMessages()}
+                <span ref={scrollAnchor}></span>
             </SCMessages>
 
             <SCInput>
-                <input onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} ref={input} type="text" placeholder="Digite sua mensagem aqui"/>
+                <input 
+                    onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} 
+                    ref={input} 
+                    type="text" 
+                    placeholder="Digite sua mensagem aqui"
+                />
+
                 <div>
+                    <button onClick={sendMessage}>A</button>
                     <button onClick={sendMessage}>S</button>
                 </div>
             </SCInput>
@@ -50,7 +62,8 @@ export function Chatbox() {
 }
 
 const SCInput = styled.div`
-    position: relative;
+    position: absolute;
+    bottom: 0;
 
     display: flex;
     justify-content: space-between;
@@ -74,7 +87,6 @@ const SCInput = styled.div`
 
         width: 40px;
         padding: 4px;
-
 
         button {
             width: 30px;
@@ -100,9 +112,24 @@ const SCMessages = styled.div`
    flex-direction: column;  
 
    width: 100%;
+
    padding: 20px 10px;
+   margin-bottom: 80px;
 
    gap: 10px;
+
+   &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #88888880;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;   
+
 
 `
 
@@ -114,13 +141,13 @@ const SCChatbox = styled.div`
   background-color: #CFD4DD;
   align-items: center;
 
-  overflow-y: scroll;
+  overflow: auto;
 
   width: 85%;
-  height: 90%;
+  height: 100%;
 
   border-radius: 5px;
   border: 1px solid #CFD4DD;
 
-  padding-top: 20px;
+    padding-top: 10px;
 `
