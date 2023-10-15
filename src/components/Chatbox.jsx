@@ -17,13 +17,13 @@ export function Chatbox() {
         const message = {type, text};
         const newMessages = [...messages, message];
         setMessages(newMessages);
-        input.current.value = "";
     }
 
     function sendMessage() {
         const message = input.current.value;
         if(message === "") return;
         createMessage(message);
+        input.current.value = "";
     }
 
     function genMessages(){
