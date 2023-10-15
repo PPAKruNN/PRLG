@@ -8,6 +8,14 @@ import {
     Checkbox,
     Stack,
     Spinner,
+    Modal,
+    ModalOverlay,
+    ModalCloseButton,
+    ModalBody,
+    Text,
+    useDisclosure,
+    ModalContent,
+    ModalHeader,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +35,8 @@ export default function Form() {
         isVisiblePhone: true,
     });
     const [isDisable, setIsDisable] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         axios.get('http://localhost:5000/announcement')
@@ -43,6 +53,7 @@ export default function Form() {
                     price: response.data['6'].answer,
                     isVisiblePhone: true,
                 });
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -61,12 +72,24 @@ export default function Form() {
         e.preventDefault();
         setIsDisable(true);
 
+        onOpen();
         // TODO: mensagem de sucesso
     };
 
+    if (isLoading) return <Spinner
+        color='gray.500'
+        size='lg'
+        minH='32%'
+        minW='50%'
+        thickness='6px'
+        speed='0.65s'
+        emptyColor='#F28000'
+        mt={25}
+    />;
+
     return (
         <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
+            <Stack spacing={4} w='100vw' p='0 10%'>
                 <FormControl>
                     <FormLabel>Título</FormLabel>
                     <Input
@@ -87,7 +110,7 @@ export default function Form() {
                         onChange={handleInputChange}
                     />
                 </FormControl>
-                
+
                 <FormControl>
                     <FormLabel>Marca</FormLabel>
                     <Input
@@ -184,6 +207,23 @@ export default function Form() {
                     )}
                 </Button>
             </Stack>
+
+            <Modal
+                isCentered
+                onClose={onClose}
+                isOpen={isOpen}
+                motionPreset='slideInBottom'
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Anúncio em análise</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text>Obrigado pela confiança! Avisaremos quando sua publicação estiver no ar.</Text>
+                    </ModalBody>
+                    
+                </ModalContent>
+            </Modal>
         </form>
     );
 }

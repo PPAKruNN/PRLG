@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { SuggestionBox } from "./SuggestionBox";
 import axios from "axios";
 import { BsFillPlusSquareFill } from "react-icons/bs";
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, Tooltip } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -15,14 +15,14 @@ export function Chatbox() {
     const navigate = useNavigate();
 
     const [messages, setMessages] = useState([
-        {type: "bot", text: "Oi, eu sou o Oli!"},
-        {type: "bot", text: "Eu vou te ajudar a anunciar seu produto!"},
+        { type: "bot", text: "Oi, eu sou o Oli!" },
+        { type: "bot", text: "Eu vou te ajudar a anunciar seu produto!" },
     ]);
 
     const [suggestions, setSuggestions] = useState([]);
     const [answers, setAnswers] = useState({
         question: '',
-        answer: '' ,
+        answer: '',
     })
 
     const [questionsSaved, setQuestionsSaved] = useState([
@@ -36,30 +36,30 @@ export function Chatbox() {
     const scrollAnchor = useRef(null);
 
     function createMessage(text, type = "user") {
-        const message = {type, text};
+        const message = { type, text };
         const newMessages = [...messages, message];
         setMessages(newMessages);
     }
 
     function sendMessage() {
         const message = input.current.value;
-        if(message === "") return;
+        if (message === "") return;
         createMessage(message);
         setAnswers({
             question: questionsSaved[questionsSaved.length - 1],
-            answer: input.current.value ,
+            answer: input.current.value,
         })
         input.current.value = "";
     }
 
-    function genMessages(){
+    function genMessages() {
         return messages.map((message, index) => {
-            return <Message key={index} type={message.type} text={message.text}/>
+            return <Message key={index} type={message.type} text={message.text} />
         })
     }
 
     function receiveQuestions() {
-        axios.post('http://localhost:5000/chat', {questions: answers}).then(res => {
+        axios.post('http://localhost:5000/chat', { questions: answers }).then(res => {
             if (!res.data) {
                 receiveQuestions()
             }
@@ -79,7 +79,7 @@ export function Chatbox() {
     //     // selected = retorno do GPETO
     //     // createMessage no selected (retorno do GPETO)
     // }
-    
+
     useEffect(() => {
         const delay = answers.length === 0 ? 3000 : 0;
         const timer = setTimeout(() => {
@@ -89,49 +89,57 @@ export function Chatbox() {
     }, [answers]);
 
 
-    useEffect( () => {
-        scrollAnchor.current.scrollIntoView({behavior: 'smooth', block: 'end'});
+    useEffect(() => {
+        scrollAnchor.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     })
 
     return (
-          <SCChatbox>
-            
-            <IconButton 
-                icon={<BsFillPlusSquareFill 
-                    style={{fontSize: '40px', color: 'F28000', border: '1.5px solid #000', borderRadius: '5px'}}/>
-                }
-                position="absolute"
-                top={3}
-                right={3}
-                boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                onClick={() => {navigate('/forms')}}
-            />
+        <SCChatbox>
+
+            <Tooltip 
+                label='Criar anúncio' 
+                bgColor='#F28000'
+                placement='top' 
+                isOpen={messages.length > 10}
+                closeDelay={500}
+            >
+                <IconButton
+                    icon={<BsFillPlusSquareFill
+                        style={{ fontSize: '40px', color: 'F28000', border: '1.5px solid #000', borderRadius: '5px' }} />
+                    }
+                    position="absolute"
+                    top={3}
+                    right={3}
+                    boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+                    onClick={() => { navigate('/forms') }}
+                />
+            </Tooltip>
 
             <SCMessages>
-                <Oli/>
+                <Oli />
                 {genMessages()}
                 <span ref={scrollAnchor}></span>
             </SCMessages>
 
             <SCInput>
-                <SuggestionBox inputRef={input} array={suggestions}/>
-                <input 
-                    onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} 
-                    ref={input} 
-                    type="text" 
+                <SuggestionBox inputRef={input} array={suggestions} />
+                <input
+                    onKeyDown={(e) => { if (e.key === 'Enter') sendMessage() }}
+                    ref={input}
+                    type="text"
                     placeholder="Digite sua mensagem aqui"
                 />
 
                 <div>
                     <button onClick={sendMessage}>
-                        <img src={anex} alt="Attach a photo"/>
+                        <img src={anex} alt="Attach a photo" />
                     </button>
                     <button onClick={sendMessage}>
-                        <img src={send} alt="send"/>
+                        <img src={send} alt="send" />
                     </button>
                 </div>
             </SCInput>
-          </SCChatbox>
+        </SCChatbox>
     )
 }
 
