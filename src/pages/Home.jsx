@@ -38,6 +38,8 @@ const SCPage = styled.div`
     letter-spacing: 0em;
     text-align: center;
 
+    flex-shrink: 0;
+
   }
 
 `
@@ -50,5 +52,5 @@ const SCContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  padding: 40px 0px;
+  padding: 50px 0px;
 `
