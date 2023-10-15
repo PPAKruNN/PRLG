@@ -20,11 +20,9 @@ const SBody = styled.div`
     flex-direction: column;
     align-items: center;
     align-self: center;
+    width: 85%;
 
-    width: 60%;
-    height: 200px;
-
-    gap: 10px;
+    gap: 5px;
 
     h1 {
         font-size: 18px;
@@ -34,11 +32,15 @@ const SBody = styled.div`
     }
 
     p {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 400;
         letter-spacing: 0em;
         text-align: center;
-        color:#5E6A82
+        color:#5E6A82;
+    }
+
+    img {
+        width: 120px;
     }
 
 `
