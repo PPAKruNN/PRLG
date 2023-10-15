@@ -33,7 +33,7 @@ export function CustomerChatbox() {
     }
 
     function postMessage(message) {
-        return axios.post("http://localhost:5000/customer-question", { question: message })
+        return axios.post(import.meta.env.VITE_API_URL + "customer-question", { question: message })
     }
 
     function genMessages() {

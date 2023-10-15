@@ -59,7 +59,7 @@ export function Chatbox() {
     }
 
     function receiveQuestions() {
-        axios.post('http://localhost:5000/chat', { questions: answers }).then(res => {
+        axios.post(import.meta.env.VITE_API_URL + 'chat', { questions: answers }).then(res => {
             if (!res.data) {
                 receiveQuestions()
             }

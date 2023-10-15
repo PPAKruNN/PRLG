@@ -39,7 +39,7 @@ export default function Form() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/announcement')
+        axios.get(import.meta.env.VITE_API_URL + 'announcement')
             .then((response) => {
                 setFormData({
                     title: response.data['0'].answer + ' ' + response.data['2'].answer + ' ' + response.data['4'].answer,
