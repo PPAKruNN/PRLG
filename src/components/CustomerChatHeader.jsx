@@ -12,7 +12,7 @@ export default function CustomerChatHeader() {
             <Flex gap={3} alignItems='center'>
                 <Image src={arrow} w={3} h={3}></Image>
                 <Flex flexDir="column">
-                    <Text fontSize={15} fontWeight={500}>biegerfelipe</Text>
+                    <Text fontSize={15} fontWeight={500}>Vendedor</Text>
                     <Text fontSize={11} fontWeight={300}>Último acesso 12/10/2023</Text>
                 </Flex>
             </Flex>

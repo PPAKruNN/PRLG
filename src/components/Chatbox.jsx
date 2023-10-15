@@ -66,19 +66,12 @@ export function Chatbox() {
             const array = questionsSaved
             array.push(res.data.question || res.data.createdQuestion)
             setQuestionsSaved(array)
+            if(res.data.suggestedAnswers) setSuggestions(res.data.suggestedAnswers);
             createMessage(res.data.question || res.data.createdQuestion, 'bot')
         }).catch(err => {
             console.error(err);
         })
     }
-
-    // function botPrompt(){
-    //     let selected = '';
-    //     // verificar se tem alguma questão na fila (questions), caso exista selected = questãoExistente,
-    //     // caso contrário, pedimos para o GPETO a prox question
-    //     // selected = retorno do GPETO
-    //     // createMessage no selected (retorno do GPETO)
-    // }
 
     useEffect(() => {
         const delay = answers.length === 0 ? 3000 : 0;
