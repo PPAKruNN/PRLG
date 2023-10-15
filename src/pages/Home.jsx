@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import BottomButtons from "../components/BottomButtons";
 import Header from "../components/Header";
 import { Chatbox } from "../components/Chatbox";
 
