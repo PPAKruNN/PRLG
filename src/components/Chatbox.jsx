@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import { Oli } from "../components/Oli";
-import { Message } from "./message";
+import { Message } from "./Message";
 import { useEffect, useRef, useState } from "react";
+import { SuggestionBox } from "./SuggestionBox";
 
 export function Chatbox() {
 
@@ -9,6 +10,7 @@ export function Chatbox() {
         {type: "bot", text: "Oi, eu sou o Oli!"},
         {type: "bot", text: "Eu vou te ajudar a anunciar seu produto!"},
     ]);
+    const [suggestions, setSuggestions] = useState([]);
 
     const input = useRef(null);
     const scrollAnchor = useRef(null);
@@ -45,6 +47,7 @@ export function Chatbox() {
             </SCMessages>
 
             <SCInput>
+                <SuggestionBox inputRef={input} array={suggestions}/>
                 <input 
                     onKeyDown={(e) => {if(e.key === 'Enter') sendMessage()}} 
                     ref={input} 
@@ -64,6 +67,8 @@ export function Chatbox() {
 const SCInput = styled.div`
     position: absolute;
     bottom: 0;
+
+    overflow: visible;
 
     display: flex;
     justify-content: space-between;
